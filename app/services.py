@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from fastapi.responses import FileResponse
 from app.models import ModelConfig
 from azure.storage.blob import BlobServiceClient, ContentSettings
-from dotenv import dotenv_valuesd
+from dotenv import dotenv_values
 
 UPLOAD_DIR = "./uploads"
 MODEL_DIR = "./models"
