@@ -53,6 +53,7 @@ async def upload_data_service(images: list[UploadFile], masks: list[UploadFile],
         with open(local_path, "wb") as f:
             shutil.copyfileobj(image.file, f)
         
+        image.file.seek(0)
         blob_path = f"semantic-images/{session_id}/images/{image.filename}"
         with open(local_path, "rb") as data:
             container_client.upload_blob(
@@ -68,6 +69,7 @@ async def upload_data_service(images: list[UploadFile], masks: list[UploadFile],
         with open(local_path, "wb") as f:
             shutil.copyfileobj(mask.file, f)
 
+        mask.file.seek(0)
         blob_path = f"semantic-images/{session_id}/masks/{mask.filename}"
         with open(local_path, "rb") as data:
             container_client.upload_blob(
@@ -82,6 +84,7 @@ async def upload_data_service(images: list[UploadFile], masks: list[UploadFile],
     with open(csv_local_path, "wb") as f:
         shutil.copyfileobj(csv_file.file, f)
 
+    csv_file.file.seek(0)
     with open(csv_local_path, "rb") as data:
         container_client.upload_blob(
             f"semantic-images/{session_id}/image_mask_mapping.csv",
