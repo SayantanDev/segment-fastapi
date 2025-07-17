@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import router
+from app.routes.free_segment_routes import free_segment_router
+from app.routes.auth_routes import auth_router
 
 app = FastAPI()
 
@@ -11,10 +12,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Access-Token", "X-Refresh-Token"],
 )
 
 # Include the routes
-app.include_router(router)
+app.include_router(auth_router, prefix="/auth")
+app.include_router(free_segment_router, prefix="/freeSegmentation")
 
 if __name__ == "__main__":
     import uvicorn

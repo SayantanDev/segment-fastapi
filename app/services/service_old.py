@@ -6,7 +6,7 @@ import uuid
 from fastapi import UploadFile  # Add this import
 from fastapi import HTTPException
 from fastapi.responses import FileResponse
-from app.models import ModelConfig
+from app.models.segmentation_model import ModelConfig
 from azure.storage.blob import BlobServiceClient
 # from dotenv import load_dotenv
 from dotenv import dotenv_values

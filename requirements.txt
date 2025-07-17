@@ -1,5 +1,10 @@
 fastapi
+dotenv
 uvicorn[standard]
 python-dotenv
 azure-storage-blob
 python-multipart
+pymongo[srv]==3.12
+passlib
+pydantic[email]
+google-auth

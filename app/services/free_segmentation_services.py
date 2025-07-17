@@ -3,10 +3,9 @@
 import os
 import shutil
 import uuid
-from fastapi import UploadFile  # Add this import
-from fastapi import HTTPException
+from fastapi import UploadFile 
 from fastapi.responses import FileResponse
-from app.models import ModelConfig
+from app.models.segmentation_model import ModelConfig
 from azure.storage.blob import BlobServiceClient, ContentSettings
 from dotenv import dotenv_values
 
@@ -92,7 +91,7 @@ async def upload_data_service(images: list[UploadFile], masks: list[UploadFile],
             overwrite=True,
             content_settings=ContentSettings(content_type="text/csv")
         )
-    print('=======================uploaded to Azure============================')
+    print('=====uploaded to Azure=====')
     return {"session_id": session_id, "status": "uploaded to Azure"}
 
 async def train_model_service(config: ModelConfig, session_id: str):
