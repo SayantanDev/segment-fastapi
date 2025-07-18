@@ -2,6 +2,8 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict, Any
 from datetime import date
 
+
+# ---------- Payment and Segmentation ----------
 class PaymentPlan(BaseModel):
     payment_plan: str
     payment_amount: float
@@ -20,23 +22,31 @@ class SegmentationData(BaseModel):
     session_id: str
     config_data: List[ConfigItem]
 
+
+# ---------- Auth: Signup, Login ----------
 class UserRegister(BaseModel):
     email: EmailStr
-    password: str
+    password: str  # Required for normal signup
     name: str
     payment: Optional[PaymentInfo] = None
     segmentation_data: Optional[List[SegmentationData]] = []
 
 class UserLogin(BaseModel):
     email: EmailStr
-    password: str
+    password: str  # Required for email login
 
+
+# ---------- Auth: OAuth Login ----------
 class OAuthLogin(BaseModel):
-    email: EmailStr
-    name: Optional[str]
-    provider: str  # e.g., google, github, linkedin
-    oauth_token: Optional[str] = None
+    provider: str  # "google", "github", "linkedin"
+    oauth_token: str  # ID token or access token/code (required)
+    # Backend will decode email/name from this token
+    # Optional if you're manually passing them
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
 
+
+# ---------- Auth: Response ----------
 class LoginResponse(BaseModel):
     id: str
     email: EmailStr
