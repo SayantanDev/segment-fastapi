@@ -14,7 +14,6 @@ GOOGLE_CLIENT_ID = "414871766869-9haftr4td63vrg7p8ef4ko4bgdhhedo1.apps.googleuse
 GITHUB_USER_API = "https://api.github.com/user"
 LINKEDIN_USER_API = "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))"
 
-
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
