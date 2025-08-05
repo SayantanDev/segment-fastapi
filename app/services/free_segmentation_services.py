@@ -76,50 +76,26 @@ async def upload_data_service(images: list[UploadFile], masks: list[UploadFile],
         local_path = os.path.join(image_dir, image.filename)
         blob_path = f"semantic-images/{session_id}/images/{image.filename}"
         upload_tasks.append(
-            save_and_upload_file(image, local_path, blob_path, image.content_type, container_client)
+            await save_and_upload_file(image, local_path, blob_path, image.content_type, container_client)
         )
-        # with open(local_path, "wb") as f:
-        #     shutil.copyfileobj(image.file, f)
-        
-        # image.file.seek(0)
-        # with open(local_path, "rb") as data:
-        #     container_client.upload_blob(
-        #         blob_path,
-        #         data,
-        #         overwrite=True,
-        #         content_settings=ContentSettings(content_type=image.content_type)
-        #     )
 
     # Upload masks
     for mask in masks:
         local_path = os.path.join(mask_dir, mask.filename)
         blob_path = f"semantic-images/{session_id}/masks/{mask.filename}"
         upload_tasks.append(
-            save_and_upload_file(mask, local_path, blob_path, mask.content_type, container_client)
+            await save_and_upload_file(mask, local_path, blob_path, mask.content_type, container_client)
         )
-        # with open(local_path, "wb") as f:
-        #     shutil.copyfileobj(mask.file, f)
-
-        # mask.file.seek(0)
-        # with open(local_path, "rb") as data:
-        #     container_client.upload_blob(
-        #         blob_path,
-        #         data,
-        #         overwrite=True,
-        #         content_settings=ContentSettings(content_type=mask.content_type)
-        #     )
-
+        
     # Upload CSV
     csv_local_path = os.path.join(session_path, "image_mask_mapping.csv")
     async with aiofiles.open(csv_local_path, "wb") as out_file:
         csv_content = await csv_file.read()
         await out_file.write(csv_content)
-    # with open(csv_local_path, "wb") as f:
-    #     shutil.copyfileobj(csv_file.file, f)
-
+        
     blob_path = f"semantic-images/{session_id}/image_mask_mapping.csv"
     upload_tasks.append(
-        container_client.upload_blob(
+        await container_client.upload_blob(
             blob_path,
             csv_content,
             overwrite=True,
