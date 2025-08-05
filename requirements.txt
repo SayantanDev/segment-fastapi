@@ -8,3 +8,4 @@ pymongo[srv]==3.12
 passlib
 pydantic[email]
 google-auth
+aiofiles==23.2.1
