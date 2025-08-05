@@ -9,3 +9,4 @@ passlib
 pydantic[email]
 google-auth
 aiofiles==23.2.1
+python-jose==3.3.0
